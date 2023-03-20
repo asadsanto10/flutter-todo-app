@@ -16,11 +16,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      // home: TodoList(),+
-      initialRoute: '/addTodo',
+      // home: TodoList(),
+      initialRoute: '/',
       routes: {
         MainRoute.listTodo: (contex) => const TodoList(),
-        MainRoute.addTodo: (contex) => const AddTodo(),
+        MainRoute.addTodo: (contex) => const AddTodo(
+              todo: {},
+            ),
         // MainRoute.loginRoute: (contex) => const LoginPage(),
         // MainRoute.layoutRoute: (contex) => const Layout(),
       },
