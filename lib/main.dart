@@ -20,9 +20,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         MainRoute.listTodo: (contex) => const TodoList(),
-        MainRoute.addTodo: (contex) => const AddTodo(
-              todo: {},
-            ),
+        MainRoute.addTodo: (contex) => const AddTodo(),
         // MainRoute.loginRoute: (contex) => const LoginPage(),
         // MainRoute.layoutRoute: (contex) => const Layout(),
       },

@@ -111,13 +111,17 @@ class _TodoListState extends State<TodoList> {
     });
   }
 
-  void navigateToEditPage(Map todos) {
+  Future<void> navigateToEditPage(Map todos) async {
     final route = MaterialPageRoute(
       builder: (context) => AddTodo(
         todo: todos,
       ),
     );
-    Navigator.push(context, route);
+    await Navigator.push(context, route);
+    setState(() {
+      isLoading = true;
+    });
+    getTodos();
   }
 
   Future<void> deleteTodo(String todoId) async {
