@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:todo_app_rest_api/services/todo_service.dart';
+import 'package:todo_app_rest_api/uitls/snack_bar.dart';
 
 class AddTodo extends StatefulWidget {
   final Map? todo;
@@ -72,22 +74,14 @@ class _AddTodoState extends State<AddTodo> {
       "description": description,
       "is_completed": false
     };
-    const url = 'http://api.nstack.in/v1/todos';
-    final uri = Uri.parse(url);
 
-    final respose = await http.post(
-      uri,
-      body: jsonEncode(body),
-      headers: {'Content-Type': 'application/json'},
-    );
-    // print(respose.statusCode);
-    // print(respose.body);
-    if (respose.statusCode == 201) {
-      showSuccess('Todo added successfully');
+    final respose = await TodoService.addTodo(body);
+    if (respose) {
+      showSuccess(context, message: 'Todo added successfully');
       titileController.text = '';
       descriptionController.text = '';
     } else {
-      errorMessage('Todo added failed');
+      errorMessage(context, message: 'Todo added failed');
     }
   }
 
@@ -105,36 +99,12 @@ class _AddTodoState extends State<AddTodo> {
       "description": description,
       "is_completed": false
     };
-    final url = 'http://api.nstack.in/v1/todos/$todoId';
-    final uri = Uri.parse(url);
 
-    final respose = await http.put(
-      uri,
-      body: jsonEncode(body),
-      headers: {'Content-Type': 'application/json'},
-    );
-    // print(respose.statusCode);
-    // print(respose.body);
-    if (respose.statusCode == 200) {
-      showSuccess('Todo Update successfully');
+    final respose = await TodoService.updateTodo(todoId, body);
+    if (respose) {
+      showSuccess(context, message: 'Todo Update successfully');
     } else {
-      errorMessage('Todo Update failed');
+      errorMessage(context, message: 'Todo Update failed');
     }
-  }
-
-  void showSuccess(String message) {
-    final snackBar = SnackBar(content: Text(message));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void errorMessage(String message) {
-    final snackBar = SnackBar(
-      content: Text(
-        message,
-        style: TextStyle(color: Colors.white),
-      ),
-      backgroundColor: Colors.red,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
